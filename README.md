@@ -22,7 +22,7 @@ This application scrapes recent articles from the New York Times site. Once disp
 
 ### Link to Application
 
-[Heroku Link]()
+[Heroku Link](https://nytmongoarticlescraper.herokuapp.com/)
 
 ### GIFs
 

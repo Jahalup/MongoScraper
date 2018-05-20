@@ -27,8 +27,10 @@ partialsDir: path.join(__dirname, "/views/layouts/partials")}));
 app.set("view engine", "handlebars");
 
 // Setting up mongoose
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoexperiment";
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/mongoexperiment");
+mongoose.connect(MONGODB_URI);
+// mongoose.connect("mongodb://localhost/mongoexperiment");
 var db = mongoose.connection;
 
 db.on("error", function(error) {

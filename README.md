@@ -5,8 +5,13 @@ This project was created by Jaime Halupka as a requirement for homework during U
 
 ### Screenshots
 
+Main Screen
 ![In Action](public/assets/images/screenshot1.png "In Action")
+
+Populated with Articles
 ![In Action](public/assets/images/screenshot2.png "In Action")
+
+Notes Option
 ![In Action](public/assets/images/screenshot3.png "In Action")
 
 

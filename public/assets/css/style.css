@@ -1,12 +1,30 @@
-.artimage {
+ .artimage {
     float: left;
     margin: 20px;
     border: 1px solid #ddd; /* Gray border */
     border-radius: 4px;  /* Rounded border */
-    width: 150px; /* Set a small width */
+    width: 150px;
+    height: 150px;
     padding: 5px;
+} 
+
+#modaltitle {
+    text-align: center;
 }
 
-.navbar {
-    position: fixed;
+.notedelete {
+    font-size: 10px;
+    text-align: center;
+    width: 100%;
 }
+
+.arttitle {
+    text-align: center;
+}
+.nav-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+   

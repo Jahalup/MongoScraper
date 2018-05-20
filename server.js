@@ -3,7 +3,8 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var path = require("path");
 
-var Article = require("./models/Article.js")
+var Article = require("./models/Article.js");
+var Note = require("./models/note.js");
 
 var request = require("request");
 var cheerio = require("cheerio");
@@ -18,7 +19,8 @@ app.use(express.static(__dirname + "/public"));
 
 var exphbs = require("express-handlebars");
 
-app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.engine("handlebars", exphbs({defaultLayout: "main",
+partialsDir: path.join(__dirname, "/views/layouts/partials")}));
 app.set("view engine", "handlebars");
 
 mongoose.connect("mongodb://localhost/mongoexperiment");
@@ -105,12 +107,56 @@ app.post("/articles/save/:id", function(req, res) {
     })
 })
 
+app.post("/articles/delete/:id", function(req, res) {
+    Article.findOneAndUpdate({"_id": req.params.id}, {"saved": false})
+    .exec(function(err, doc) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            res.send(doc);
+        }
+    })
+})
+
+
 app.get("/saved", function(req, res) {
-    Article.find({saved: true}).populate("notes")
-    .exec(function(error, doc) {
+    Article.find({"saved": true}).populate("notes")
+    .exec(function(error, articles) {
         var hbsObject = {
-            article: doc
+            article: articles
         }
         res.render("saved", hbsObject);
     })
 }) 
+
+
+
+
+
+
+app.post("/notes/save/:id", function(req,res) {
+    var newnote = new Note ({
+        note: req.body.text,
+        article: req.params.id
+    })
+    newnote.save(function(err, doc) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            console.log("note: " + doc);
+            Article.findOneAndUpdate({"_id": req.params.id}, {$push: {"notes": doc}})
+            .exec(function(err) {
+                if(err) {
+                    console.log(err);
+                    res.send(err);
+                }
+                else {
+                    res.send(doc);
+                }
+            })
+        }
+    })
+
+})

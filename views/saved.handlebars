@@ -1,41 +1,43 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <span class="navbar-brand mb-0 h1">Save Articles</span>          
-                <ul class="navbar-nav">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="#">Home </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Saved Articles<span class="sr-only">(current)</span></a>
-                  </li>
-              </nav>     
-
+<nav>
+    <div class="nav-wrapper #40c4ff light-blue accent-2">
+      <a href="#" class="brand-logo">NYT Scraper</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/">Home</a></li>
+        <li><a href="/saved">Saved Articles</a></li>
+        
+      </ul>
+    </div>
+  </nav>
 
 <div class="articles">
 
 
         {{#each article}}
         {{#if saved}}
-
-        {{!-- <div class="articlelist"> --}}
-
-
-<div class="card">
-  
-  <div class="card-body">
-    <h5 class="card-title"> <a href = {{link}}>{{title}}</a></h5>
-   <img class="artimage" src="{{image}}">
-   <div class="card-body"></div>
-    <p class="card-text">{{summary}}</p>
-    <button class="btn btn-sm btn-outline-secondary save" type="button" data-id="{{_id}}"> Save</button>
-   </div>
+  <div class="col s12 m7">
+    <h4 class="header"> <a href = {{link}}>{{title}}</a></h4>
+    <div class="card horizontal">
+      <div class="card-image">
+        <img class="artimage" src="{{image}}">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <p>{{summary}}</p>
+        </div>
+        <div class="card-action">
+          <button data-target="modal1{{this._id}}" data-id={{this._id}} class="btn modal-trigger #40c4ff light-blue accent-2">Add a Note</button>
+          <button data-target="deletesaved{{this._id}}" data-id={{this._id}} class="btn deletesave #40c4ff light-blue accent-2">Delete from Saved</button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-           
-
        {{/if}}
         {{/each}}
     </div>
 
+{{#each article}}
+    {{> notes-modal }}
+{{/each}}
 
 
 

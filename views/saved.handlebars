@@ -1,3 +1,5 @@
+
+{{!-- Nav bar --}}
 <nav>
     <div class="nav-wrapper #40c4ff light-blue accent-2">
       <a href="#" class="brand-logo">NYT Scraper</a>
@@ -9,9 +11,10 @@
     </div>
   </nav>
 
+{{!-- Main Page --}}
 <div class="articles">
 
-
+{{#if article}}
         {{#each article}}
         {{#if saved}}
   <div class="col s12 m7">
@@ -28,16 +31,19 @@
           <button data-target="modal1{{this._id}}" data-id={{this._id}} class="btn modal-trigger #40c4ff light-blue accent-2">Add a Note</button>
           <button data-target="deletesaved{{this._id}}" data-id={{this._id}} class="btn deletesave #40c4ff light-blue accent-2">Delete from Saved</button>
         </div>
+         {{> notes-modal }}
       </div>
     </div>
   </div>
-       {{/if}}
+        {{/if}}
         {{/each}}
-    </div>
 
-{{#each article}}
-    {{> notes-modal }}
-{{/each}}
+  {{else}}
+        <img id="back" src="/assets/images/nosave.jpg">
+    </div>
+  {{/if}}
+
+
 
 
 

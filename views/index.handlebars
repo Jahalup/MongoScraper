@@ -1,6 +1,6 @@
 
 
-
+{{!-- Nav bar --}}
   <nav>
     <div class="nav-wrapper #40c4ff light-blue accent-2">
       <a href="#" class="brand-logo">NYT Scraper</a>
@@ -8,19 +8,21 @@
         <li><a href="/">Home</a></li>
         <li><a href="/saved">Saved Articles</a></li>
          <a class="waves-effect waves-light btn #40c4ff light-blue accent-2 save" id="btnscraper">Scrape New Articles</a>
+         <a class="waves-effect waves-light btn #40c4ff light-blue accent-2 unsave" id="clearart">Clear All Articles</a>
         
         
       </ul>
     </div>
   </nav>
 
+{{!-- Main Page --}}
     <div class="articles">
 
-
+        {{#if article}}
         {{#each article}}
         {{#unless saved}}
 
-        {{!-- <div class="articlelist"> --}}
+       
 
  <div class="col s12 m7">
     <h4 class="header arttitle"> <a href = {{link}}>{{title}}</a></h4>
@@ -28,21 +30,23 @@
       <div class="card-image">
         <img class="artimage" src="{{image}}">
       </div>
-      <div class="card-stacked">
-        <div class="card-content">
-          <p>{{summary}}</p>
-        </div>
+        <div class="card-stacked">
+          <div class="card-content">
+            <p>{{summary}}</p>
+          </div>
         <div class="card-action">
           <a class="waves-effect waves-light btn #40c4ff light-blue accent-2 save"  data-id="{{_id}}">Save Article</a>
-          
+          <a class="waves-effect waves-light btn #40c4ff light-blue accent-2 delete"  data-id="{{_id}}">Delete Article</a>
         </div>
       </div>
     </div>
   </div>
 
-
-
-
-       {{/unless}}
-        {{/each}}
+      {{/unless}}
+      {{/each}}
+      {{else}}
+       
+      <img id="back" src="/assets/images/newsedited.jpg">
+      
+      {{/if}}
     </div>

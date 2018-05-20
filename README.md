@@ -5,11 +5,14 @@ This project was created by Jaime Halupka as a requirement for homework during U
 
 ### Screenshots
 
-![In Action]("In Action")
+![In Action](public/assets/images/screenshot1.png "In Action")
+![In Action](public/assets/images/screenshot2.png "In Action")
+![In Action](public/assets/images/screenshot3.png "In Action")
 
 
 ### Description
 
+This application scrapes recent articles from the New York Times site. Once displayed, articles can be saved to a saved list. Notes can then be added/deleted to/from saved articles through a modal. Articles can be removed from the saved list and all articles can be cleared in preparation for a new scrape.
 
 
 ### Link to Application
@@ -18,13 +21,15 @@ This project was created by Jaime Halupka as a requirement for homework during U
 
 ### GIFs
 
-![Alt Text]()
+![Gif](https://thumbs.gfycat.com/UnfitDopeyHarborporpoise-size_restricted.gif)
 
-[GIF Link]()
+[GIF Link](https://gfycat.com/gifs/detail/UnfitDopeyHarborporpoise)
 
 ### Node Packages Used
 
 * express
 * body-parser
 * express-handlebars
-* mysql
+* mongoose
+* cheerio
+* request

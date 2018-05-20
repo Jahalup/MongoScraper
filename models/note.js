@@ -4,7 +4,7 @@ var NoteSchema = new Schema({
 
     note: {
     type: String
-},
+    },
 
     article: {
         type: Schema.Types.ObjectId,

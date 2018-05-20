@@ -1,28 +1,33 @@
+// npm packages
 var express = require("express");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var path = require("path");
+var request = require("request");
+var cheerio = require("cheerio");
+var exphbs = require("express-handlebars");
 
+// importing models
 var Article = require("./models/Article.js");
 var Note = require("./models/note.js");
 
-var request = require("request");
-var cheerio = require("cheerio");
 
-mongoose.Promise = Promise;
+
 
 var PORT = process.env.PORT || 3000;
 
+// Setting up express
 var app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(__dirname + "/public"));
 
-var exphbs = require("express-handlebars");
-
+// Handlebars set up
 app.engine("handlebars", exphbs({defaultLayout: "main",
 partialsDir: path.join(__dirname, "/views/layouts/partials")}));
 app.set("view engine", "handlebars");
 
+// Setting up mongoose
+mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/mongoexperiment");
 var db = mongoose.connection;
 
@@ -34,21 +39,40 @@ db.once("open", function(){
     console.log("Mongoose connection successful.");
 });
 
+// Server connection
+app.listen(PORT, function() {
+    console.log("App running on 3000");
+})
 
-
-// Routes
-
+//////////////////////////
+//Routes
+//////////////////////////
+// Home
 app.get("/", function(req,res) {
-    Article.find({"saved": false}, function(error, data) {
+    Article.find({saved: false}, function(error, data) {
         var hbsObject = {
             article: data
         };
         console.log(hbsObject);
         res.render("index", hbsObject);
     })
-})
+});
+
+// Function to delete all unsaved articles
+app.delete("/deleteall", function(req, res) {
+Article.deleteMany({ saved: false }, function (err) {
+    if(err) {
+        res.send(err);
+    }
+    else {
+        res.send();
+    }
+
+  })
+});
 
 
+// Scraping articles using cheerio
 app.get("/scrape", function(req, res) {
     request("https://www.nytimes.com/", function(error, response, html) {
         var $ = cheerio.load(html);
@@ -76,26 +100,10 @@ app.get("/scrape", function(req, res) {
 })
 
 
-app.get("/articles", function(req,res) {
-    Article.find({}, function(error, doc) {
-        if(error) {
-            console.log(error);
-        }
-
-        else {
-            res.json(doc);
-        }
-    })
-})
-
-app.listen(PORT, function() {
-    console.log("App running on 3000");
-})
-
-
+// Route to update a specific article (to saved)
 
 app.post("/articles/save/:id", function(req, res) {
-    Article.findOneAndUpdate({"_id": req.params.id}, {"saved": true})
+    Article.findOneAndUpdate({_id: req.params.id}, {saved: true})
     .exec(function(err,doc) {
         if(err) {
             console.log(err);
@@ -107,8 +115,23 @@ app.post("/articles/save/:id", function(req, res) {
     })
 })
 
+// Route to delete an usaved article
+
+app.delete("/articles/delete/:id", function(req, res) {
+    Article.findOneAndRemove({_id: req.params.id})
+    .exec(function(err, doc) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            res.send(doc);
+        }
+    })
+})
+
+// Route to update a specific article (to 'unsaved')
 app.post("/articles/delete/:id", function(req, res) {
-    Article.findOneAndUpdate({"_id": req.params.id}, {"saved": false})
+    Article.findOneAndUpdate({_id: req.params.id}, {saved: false})
     .exec(function(err, doc) {
         if(err) {
             console.log(err);
@@ -120,8 +143,9 @@ app.post("/articles/delete/:id", function(req, res) {
 })
 
 
+// Route to retrieve all saved articles
 app.get("/saved", function(req, res) {
-    Article.find({"saved": true}).populate("notes")
+    Article.find({saved: true}).populate("notes")
     .exec(function(error, articles) {
         var hbsObject = {
             article: articles
@@ -131,10 +155,7 @@ app.get("/saved", function(req, res) {
 }) 
 
 
-
-
-
-
+// Route to save a note
 app.post("/notes/save/:id", function(req,res) {
     var newnote = new Note ({
         note: req.body.text,
@@ -146,7 +167,7 @@ app.post("/notes/save/:id", function(req,res) {
         }
         else {
             console.log("note: " + doc);
-            Article.findOneAndUpdate({"_id": req.params.id}, {$push: {"notes": doc}})
+            Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: doc}})
             .exec(function(err) {
                 if(err) {
                     console.log(err);
@@ -157,6 +178,27 @@ app.post("/notes/save/:id", function(req,res) {
                 }
             })
         }
+    });
+
+// Route to delete a specific note
+app.delete("/notes/delete/:note_id/:article_id", function(req, res) {
+    Note.findOneAndRemove({_id: req.params.note_id}, function(err) {
+        if(err) {
+            res.send(err);
+        }
+        else {
+            Article.findOneAndUpdate({_id: req.params.article_id}, {$pull: {notes: req.params.note_id}}) 
+            .exec(function(err) {
+                if(err) {
+                    res.send(err);
+                }
+                else {
+                    res.send();
+                }
+            });
+        }
     })
+});
+
 
 })

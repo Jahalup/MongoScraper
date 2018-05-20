@@ -10,14 +10,19 @@
 
 #modaltitle {
     text-align: center;
+    color: #40c4ff;
 }
 
-.notedelete {
+.notedelete, .savenote {
     font-size: 10px;
     text-align: center;
-    width: 100%;
+    width: 10%;
+    border: solid darkgray 1px;
 }
-
+.savenote {
+    font-size: 12px;
+    margin-left: 10px;
+}
 .arttitle {
     text-align: center;
 }
@@ -26,5 +31,34 @@
     padding-right: 10px;
 }
 
+#back {
+    width: 100%;
+    height: 100%;
 
+}
+
+#closebtn {
+    color: white;
+    border: solid darkgray 3px;
+    font-size: 12px;
+    margin: 20px;
    
+}
+
+.hrdetail {
+    border-color: #40c4ff;
+}
+
+#notetext {
+    font-size: 20px;
+}
+
+
+.input-field:focus {
+    border-bottom: 1px solid  #40c4ff;
+   
+}
+
+.inputrow {
+    padding-top: 75px;
+}

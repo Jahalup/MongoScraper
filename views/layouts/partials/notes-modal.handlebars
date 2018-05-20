@@ -1,86 +1,43 @@
 <div id="modal1{{this._id}}" class="modal">
-    <div class="modal-content">
+    <div class="modal-content mainmodal">
         <h4 id="modaltitle">{{this.title}}</h4>
+        <hr class="hrdetail">
        
-        {{#if this.notes}}
-        {{#each this.notes}}
-      {{!-- <h4>Notes for <a href = {{link}}>{{title}}</a></h4> --}}
-      <h6>{{this.note}}</h6>
-    
-       <button data-target="modal1" class="btn-small notedelete modal-trigger #40c4ff light-blue accent-2" data-note-id={{this._id}} data-article-id={{this.article}}>Delete Note</button>
-     <hr>
+    {{#if this.notes}}
+    {{#each this.notes}}
+     
+        <p id="notetext">{{this.note}}</p>
+        <button class="btn-small notedelete #40c4ff light-blue accent-2" data-note-id={{this._id}} data-article-id={{this.article}}>Delete Note</button> 
+        <hr class="hrdetail">
+
     {{/each}}
     {{else}}
-    <h6>No notes are available yet</h6>
+        <h4 id="nonotes">No notes are available yet</h4>
     {{/if}}
-   <div class="row">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea id="noteText{{this._id}}" class="materialize-textarea"></textarea>
-          <label for="textarea1" id="noteText2{{this._id}}" class="#40c4ff light-blue accent-2">Enter a Note</label>
-        </div>
-         <button data-target="modal1" data-id={{this._id}} class="btn savenote modal-trigger #40c4ff light-blue accent-2">Save Note</button>
+    <div class="row">
+        <form class="col s12">
+            <div class="row inputrow">
+                <div class="input-field col s12">
+                    <textarea id="noteText{{this._id}}" class="materialize-textarea textmargin"></textarea>
+                    <label for="textarea1" id="noteText2{{this._id}}" class="textinput"><span class="#40c4ff blue-text">Enter a Note</span></label>
+                </div>
+            <button data-id={{this._id}} class="btn savenote #40c4ff light-blue accent-2">Save Note</button>
+            </div>
+        </form>
       </div>
-    </form>
-  </div>
-    
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat #40c4ff light-blue accent-2">Close</a>
-    </div>
-  </div>
-
-
-
-
-
-
-
-{{!-- 
-<!--Notes Modal-->
-
-<div class="modal fade modalNote" id="noteModal{{this._id}}" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Notes for {{this.title}}</h4>
-            </div>
-            <div class="modal-body">
-                {{#if this.notes}}
-                    {{#each this.notes}}
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <p class="previousNotes"> {{this.body}}</p>
-                                <button type="button" class="btn btn-danger deleteNote" data-note-id={{this._id}} data-article-id={{this.article}}>X</button>
-                            </div>
-                        </div>
-                    {{/each}}
-                {{else}}
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h4>No notes for this article yet.</h4>
-                        </div>
-                    </div>
-                {{/if}}
-                <div class="form-group">
-                    <textarea id="noteText{{this._id}}" class="form-control" rows="4" placeholder="New Note"></textarea>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary saveNote" data-id={{this._id}}>Save Note</button>
-            </div>
-        </div>
+         <button id="closebtn" class="modal-close waves-effect waves-green btn-flat #40c4ff light-blue accent-2">Close</button>
+      {{!-- <a href="#!" id="closebtn" class="modal-close waves-effect waves-green btn-flat #40c4ff light-blue accent-2">Close</a> --}}
     </div>
 </div>
 
+
+
+
+
+
+
+
  
- 
- 
- 
- 
- 
- 
-  --}}
+  
